@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListPreference
+        android:defaultValue="vote_"
+        android:dialogTitle="Units"
+        android:entries="@array/entry_values_movies"
+        android:entryValues="@array/entry_values_movies"
+        android:key="@string/pref_movies_key"
+        android:summary="@string/pref_movies_default_value"
+        android:title="Filmes em ordem de" />
+
+</PreferenceScreen>
+
