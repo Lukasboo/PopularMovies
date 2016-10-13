@@ -19,7 +19,17 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PreferencesTheme" parent="android:Theme">
+        <item name="android:background">#070736</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:dialogTheme">@style/DialogStyle</item>
+        <item name="android:alertDialogTheme">@style/DialogStyle</item>
+    </style>
+
+    <style name="DialogStyle">
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
 
 </resources>

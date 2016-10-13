@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.Buffer;
 
 /**
  * Created by Mobile on 07/10/2016.
@@ -18,61 +17,35 @@ import java.nio.Buffer;
 
 public class FetchMoviesTask extends AsyncTask<String, Void, String> {
 
-
-    //String API_KEY = "{INSERT API_KEY}";
-    String API_KEY = "";
     @Override
     protected String doInBackground(String... params) {
-
         String teste = sendRequest(params[0]);
-
         return teste;
-
     }
 
     private String sendRequest(String params){
-
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String moviesJson = null;
         try {
-
-            Uri.Builder uri = new Uri.Builder();
-            uri.scheme("http")
-                    .authority("api.themoviedb.org")
-                    .appendPath("3")
-                    .appendPath("movie")
-                    .appendEncodedPath("upcoming")
-                    .appendQueryParameter("api_key", API_KEY)
-                    .appendQueryParameter("language", "pt-BR")
-                    .appendQueryParameter("sort_by", params);
-                    //.appendQueryParameter("sort_by", "popularity.desc");
-                    //.appendQueryParameter("units", "pt-BR");
-            //.appendQueryParameter("page", "1");
-
-            String urlBuild = uri.build().toString();
-            URL url = new URL(urlBuild);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+            URL url = new URL(uriBuilder(params));
+            urlConnection = setUrlConnection(url);
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-                //return null;
+                return null;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
-
             String line;
             while ((line = reader.readLine()) != null) {
                 buffer.append(line + "\n");
             }
-
             if (buffer.length() == 0) {
-                //return null;
+                return null;
             }
             moviesJson = buffer.toString();
         } catch (IOException e) {
-            //return null;
+            return null;
         } finally{
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -88,26 +61,24 @@ public class FetchMoviesTask extends AsyncTask<String, Void, String> {
         return moviesJson;
     }
 
+    private String uriBuilder(String params){
+        Uri.Builder uri = new Uri.Builder();
+        uri.scheme("http")
+                .authority(Movie.TAG_URL_API)
+                .appendPath("3")
+                .appendPath("movie")
+                .appendEncodedPath(params)
+                .appendQueryParameter("api_key", Movie.TAG_KEY_API)
+                .appendQueryParameter("language", "pt-BR");
+        String urlBuild = uri.build().toString();
+        return urlBuild;
+    }
 
-    private String convertStreamToString(InputStream is) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line).append('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return sb.toString();
+    private HttpURLConnection setUrlConnection(URL url) throws IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.setRequestMethod("GET");
+        urlConnection.connect();
+        return urlConnection;
     }
 
 }

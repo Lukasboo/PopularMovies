@@ -1,14 +1,11 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
-import java.util.ArrayList;
-
 /**
  * Created by Mobile on 07/10/2016.
  */
 
 public class Movie {
 
-    //public String movieName;
     public String poster_path;
     public boolean adult;
     public String overview;
@@ -38,17 +35,11 @@ public class Movie {
     public static final String TAG_VOTE_COUNT = "vote_count";
     public static final String TAG_VIDEO = "video";
     public static final String TAG_VOTE_AVERAGE = "vote_average";
+    public static final String TAG_KEY_API = "API KEY HERE";
+    public static final String TAG_URL_POSTER_PATH = "https://image.tmdb.org/t/p/w500";
+    public static final String TAG_URL_API = "api.themoviedb.org";
 
-    public Movie(){
-    }
-
-    /*public String getMovieName() {
-        return movieName;
-    }
-
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
-    }*/
+    public Movie(){}
 
     public String getPoster_path() {
         return poster_path;

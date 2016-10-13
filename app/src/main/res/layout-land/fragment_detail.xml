@@ -11,11 +11,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MovieDetail" >
 
+    <!-- An invisible view aligned to the center of the parent. Allows other
+    views to be arranged on either side -->
+    <View
+        android:id="@+id/centerShim"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:visibility="invisible"
+        android:layout_centerHorizontal="true"/>
+
     <ImageView
         android:id="@+id/movie_poster_path"
         android:src="@mipmap/ic_launcher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/centerShim"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/original_title"
@@ -23,10 +35,11 @@
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:padding="7dp"
+        android:gravity="center"
         android:textSize="20dp"
-        android:layout_below="@+id/movie_poster_path"
+        android:layout_toRightOf="@+id/centerShim"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -35,6 +48,7 @@
         android:textColor="#FFFFFF"
         android:gravity="center"
         android:textStyle="bold"
+        android:layout_toRightOf="@+id/centerShim"
         android:layout_below="@+id/original_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -46,15 +60,18 @@
         android:gravity="center"
         android:textStyle="bold"
         android:padding="5dp"
+        android:layout_toRightOf="@+id/centerShim"
         android:layout_below="@+id/vote_average"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <ScrollView
         android:id="@+id/scrollOverview"
+        android:layout_toRightOf="@+id/centerShim"
         android:layout_below="@+id/release_date"
+        android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/overview"

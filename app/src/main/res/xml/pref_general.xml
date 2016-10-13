@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
 
     <ListPreference
-        android:defaultValue="vote_"
-        android:dialogTitle="Units"
+        android:defaultValue="popular"
+        android:dialogTitle="Critério dos Filmes"
         android:entries="@array/entry_values_movies"
         android:entryValues="@array/entry_values_movies"
         android:key="@string/pref_movies_key"

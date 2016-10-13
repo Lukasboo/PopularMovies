@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.Serializable;
 
 public class MovieDetail extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class MovieDetail extends AppCompatActivity {
         }
     }
 
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements Serializable {
 
         Movie movie;
         ImageView movie_poster_path;
@@ -52,17 +49,9 @@ public class MovieDetail extends AppCompatActivity {
             movie = new Movie();
             findViews(rootView);
             Intent intent = getActivity().getIntent();
-            Picasso.with(getActivity()).load(URL_API + intent.getStringExtra(Movie.TAG_POSTER_PATH)).into(movie_poster_path);
-            original_title.setText("Nome original: " + intent.getStringExtra(Movie.TAG_ORIGINAL_TITLE));
-            overview.setText("Sinopse\n" + intent.getStringExtra(Movie.TAG_OVERVIEW));
-            vote_average.setText("Nota: " + intent.getStringExtra(movie.TAG_VOTE_AVERAGE));
-            try {
-                release_data.setText("Data de Lançamento\n" + dateFormat(intent.getStringExtra(movie.TAG_RELEASE_DATA)));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            //String teste = dateFormat(intent.getStringExtra(movie.TAG_RELEASE_DATA));
-            //release_data.setText("Data de Lançamento\n" + intent.getStringExtra(movie.TAG_RELEASE_DATA));
+            settingTexts(intent);
+            Picasso.with(getActivity()).load(URL_API + intent.getStringExtra(Movie.TAG_POSTER_PATH))
+                    .into(movie_poster_path);
             return rootView;
         }
 
@@ -73,14 +62,14 @@ public class MovieDetail extends AppCompatActivity {
             vote_average = (TextView)rootView.findViewById(R.id.vote_average);
             release_data = (TextView)rootView.findViewById(R.id.release_date);
         }
-    }
 
-    private static String dateFormat(String dataToFormat) throws ParseException {
-        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
-        Date date = inputFormat.parse(dataToFormat);
-        String dateFormated = outputFormat.format(date);
-        return dateFormated;
-    }
+        private void settingTexts (Intent intent){
+            original_title.setText("Nome original: " + intent.getStringExtra(Movie.TAG_ORIGINAL_TITLE));
+            overview.setText("Sinopse\n" + intent.getStringExtra(Movie.TAG_OVERVIEW));
+            vote_average.setText("Nota: " + intent.getStringExtra(movie.TAG_VOTE_AVERAGE));
+            release_data.setText("Data de Lançamento\n" + intent.getStringExtra(movie.TAG_RELEASE_DATA));
+        }
 
+
+    }
 }

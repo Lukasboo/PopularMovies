@@ -5,8 +5,10 @@
     android:layout_height="match_parent"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MainActivity">
 
-    <ListView
+    <GridView
         android:id="@+id/movieList"
+        android:numColumns="2"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
