@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 
-public class MovieDetail extends AppCompatActivity {
+public class MovieDetail extends AppCompatActivity implements Serializable {
 
     public MovieDetail(){}
 
@@ -37,10 +37,16 @@ public class MovieDetail extends AppCompatActivity {
         TextView overview;
         TextView vote_average;
         TextView release_data;
-        public static final String URL_API = "https://image.tmdb.org/t/p/w500";
+
 
         public PlaceholderFragment() {
         }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,9 +56,11 @@ public class MovieDetail extends AppCompatActivity {
             findViews(rootView);
             Intent intent = getActivity().getIntent();
             settingTexts(intent);
-            Picasso.with(getActivity()).load(URL_API + intent.getStringExtra(Movie.TAG_POSTER_PATH))
+            Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + intent.getStringExtra(Movie.TAG_POSTER_PATH))
                     .into(movie_poster_path);
+
             return rootView;
+
         }
 
         private void findViews(View rootView){
@@ -69,7 +77,5 @@ public class MovieDetail extends AppCompatActivity {
             vote_average.setText("Nota: " + intent.getStringExtra(movie.TAG_VOTE_AVERAGE));
             release_data.setText("Data de Lançamento\n" + intent.getStringExtra(movie.TAG_RELEASE_DATA));
         }
-
-
     }
 }

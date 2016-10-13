@@ -13,10 +13,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainFragment())
                     .commit();
-        } /*else {
-
-            MainFragment mainFragment = (MainFragment) getSupportFragmentManager()
-                .findFragmentByTag("MainFragment");
-    }*/
+        }
     }
 }

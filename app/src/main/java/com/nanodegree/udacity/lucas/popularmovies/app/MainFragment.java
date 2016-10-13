@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -33,6 +34,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -84,10 +86,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         int index = lvMovieList.getFirstVisiblePosition();
-        ArrayList<Movie> moviesArraySaved = new ArrayList<>();
-        moviesArraySaved = moviesArray;
         outState.putInt("scrollPosition", index);
-        outState.putSerializable("savedList", moviesArraySaved);
     }
 
     @Override
@@ -96,8 +95,6 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         if (savedInstanceState!=null) {
             Log.d("INDEX", String.valueOf(savedInstanceState));
             lvMovieList.setSelection(savedInstanceState.getInt("scrollPosition"));
-            movieList = (ArrayList<Movie>) savedInstanceState.getSerializable("savedList");
-            setListAdapter();
         }
     }
 
@@ -122,7 +119,6 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
 
     private void findViews(View rootView) {
         lvMovieList = (GridView) rootView.findViewById(R.id.movieList);
-        //scrollOverview = (ScrollView) rootView.findViewById(R.id.scrollOverview);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -179,6 +175,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
                 Intent intent = new Intent(getActivity(),  MovieDetail.class);
                 intentPutExtras(intent, position);
                 startActivity(intent);
+                getActivity().getFragmentManager().popBackStack();
             }
         });
     }
@@ -213,10 +210,10 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         startActivity(intent);
     }
 
-    private static String dateFormat(String dataToFormat) throws ParseException {
+    private static String dateFormat(String dateToFormat) throws ParseException {
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
-        Date date = inputFormat.parse(dataToFormat);
+        Date date = inputFormat.parse(dateToFormat);
         String dateFormated = outputFormat.format(date);
         return dateFormated;
     }
@@ -229,8 +226,6 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             moviesArray = getMoviesDataFromJson(fetchMoviesTask.execute(getPreference()).get());
             setListAdapter();
-            /*listAdapter = new ListAdapter(getContext(), moviesArray, R.layout.movies_entry);
-            lvMovieList.setAdapter(listAdapter);*/
         }
     }
 
@@ -274,5 +269,6 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         InternetDialogFragment internetDialogFragment = new InternetDialogFragment();
         internetDialogFragment.show(getFragmentManager(), "Erro Conexão");
     }
+
 
 }
