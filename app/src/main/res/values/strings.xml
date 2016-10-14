@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PopularMovies</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Preferências</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -8,6 +8,10 @@
     <string name="pref_movies_key" translatable="false">sort</string>
     <string name="pref_movies_label">Critério de Busca:</string>
     <string name="pref_movies_default_value" translatable="false">popular</string>
+    <string name="original_name">"Nome original: "</string>
+    <string name="overview">Sinopse\n</string>
+    <string name="vote_average">"Nota: "</string>
+    <string name="release_date">Data de Lançamento\n</string>
 
     <string-array name="entry_values_movies">
         <item>popular</item>

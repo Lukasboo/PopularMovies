@@ -4,5 +4,17 @@
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        app:showAsAction="always" />
+
+
+
+    <!--<item
+        android:id="@+id/action_pref_popular"
+        android:title="action_pref_popular"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_pref_top_rated"
+        android:title="action_pref_top_rated"
+        app:showAsAction="never" />-->
 </menu>

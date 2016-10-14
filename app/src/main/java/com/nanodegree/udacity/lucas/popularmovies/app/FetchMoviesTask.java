@@ -15,12 +15,12 @@ import java.net.URL;
  * Created by Mobile on 07/10/2016.
  */
 
-public class FetchMoviesTask extends AsyncTask<String, Void, String> {
+class FetchMoviesTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String teste = sendRequest(params[0]);
-        return teste;
+        String moviesJsonStr = sendRequest(params[0]);
+        return moviesJsonStr;
     }
 
     private String sendRequest(String params){

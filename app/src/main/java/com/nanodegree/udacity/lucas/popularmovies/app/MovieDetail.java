@@ -37,7 +37,10 @@ public class MovieDetail extends AppCompatActivity implements Serializable {
         TextView overview;
         TextView vote_average;
         TextView release_data;
-
+        String originalTitleStr;
+        String overviewStr;
+        String voteAverageStr;
+        String releaseDateStr;
 
         public PlaceholderFragment() {
         }
@@ -47,20 +50,18 @@ public class MovieDetail extends AppCompatActivity implements Serializable {
             super.onCreate(savedInstanceState);
         }
 
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-            movie = new Movie();
             findViews(rootView);
             Intent intent = getActivity().getIntent();
-            settingTexts(intent);
-            Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + intent.getStringExtra(Movie.TAG_POSTER_PATH))
+            movie = intent.getExtras().getParcelable("movie");
+            settingTexts();
+            Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
                     .into(movie_poster_path);
 
             return rootView;
-
         }
 
         private void findViews(View rootView){
@@ -71,11 +72,19 @@ public class MovieDetail extends AppCompatActivity implements Serializable {
             release_data = (TextView)rootView.findViewById(R.id.release_date);
         }
 
-        private void settingTexts (Intent intent){
-            original_title.setText("Nome original: " + intent.getStringExtra(Movie.TAG_ORIGINAL_TITLE));
-            overview.setText("Sinopse\n" + intent.getStringExtra(Movie.TAG_OVERVIEW));
-            vote_average.setText("Nota: " + intent.getStringExtra(movie.TAG_VOTE_AVERAGE));
-            release_data.setText("Data de Lançamento\n" + intent.getStringExtra(movie.TAG_RELEASE_DATA));
+        private void settingTexts (){
+            concatMovieString();
+            original_title.setText(originalTitleStr);
+            overview.setText(overviewStr);
+            vote_average.setText(voteAverageStr);
+            release_data.setText(releaseDateStr);
+        }
+
+        private void concatMovieString(){
+            originalTitleStr = getString(R.string.original_name) + movie.getOriginal_title();
+            overviewStr = getString(R.string.overview) + movie.getOverview();
+            voteAverageStr = getString(R.string.vote_average) + movie.getVote_average();
+            releaseDateStr = getString(R.string.release_date) + movie.getRelease_date();
         }
     }
 }

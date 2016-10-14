@@ -1,10 +1,13 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Mobile on 07/10/2016.
  */
 
-public class Movie {
+public class Movie implements Parcelable {
 
     public String poster_path;
     public boolean adult;
@@ -35,11 +38,40 @@ public class Movie {
     public static final String TAG_VOTE_COUNT = "vote_count";
     public static final String TAG_VIDEO = "video";
     public static final String TAG_VOTE_AVERAGE = "vote_average";
-    public static final String TAG_KEY_API = "API KEY";
+    public static final String TAG_KEY_API = "API KEY AQUI";
     public static final String TAG_URL_POSTER_PATH = "https://image.tmdb.org/t/p/w500";
     public static final String TAG_URL_API = "api.themoviedb.org";
 
     public Movie(){}
+
+    protected Movie(Parcel in) {
+        poster_path = in.readString();
+        adult = in.readByte() != 0;
+        overview = in.readString();
+        release_date = in.readString();
+        genre_ids = in.readString();
+        id = in.readString();
+        original_title = in.readString();
+        original_language = in.readString();
+        title = in.readString();
+        backdrop_path = in.readString();
+        popularity = in.readString();
+        vote_count = in.readString();
+        video = in.readByte() != 0;
+        vote_average = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getPoster_path() {
         return poster_path;
@@ -154,6 +186,26 @@ public class Movie {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(poster_path);
+        parcel.writeByte((byte) (adult ? 1 : 0));
+        parcel.writeString(overview);
+        parcel.writeString(release_date);
+        parcel.writeString(genre_ids);
+        parcel.writeString(id);
+        parcel.writeString(original_title);
+        parcel.writeString(original_language);
+        parcel.writeString(title);
+        parcel.writeString(backdrop_path);
+        parcel.writeString(popularity);
+        parcel.writeString(vote_count);
+        parcel.writeByte((byte) (video ? 1 : 0));
+        parcel.writeString(vote_average);
+    }
 }

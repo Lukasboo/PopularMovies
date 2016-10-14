@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#070736"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/imgmovie_entry"
+    android:src="@drawable/pixar"
+    android:padding="@dimen/base_dp"
+    android:adjustViewBounds="true"
+    android:scaleType="fitCenter"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content" />
 
-    <ImageView
-        android:id="@+id/imgmovie_entry"
-        android:src="@mipmap/ic_launcher"
-        android:padding="7dp"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>

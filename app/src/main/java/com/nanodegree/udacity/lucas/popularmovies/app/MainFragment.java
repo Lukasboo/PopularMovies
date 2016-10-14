@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -34,7 +33,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -79,8 +77,6 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             return null;
         }
     }
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -148,20 +144,20 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     private void setMovieData(JSONObject jsonObject) throws ParseException {
         try {
             movie = new Movie();
-            movie.setPoster_path(jsonObject.getString(movie.TAG_POSTER_PATH));
-            movie.setAdult(jsonObject.getBoolean(movie.TAG_ADULT));
-            movie.setOverview(jsonObject.getString(movie.TAG_OVERVIEW));
-            movie.setRelease_date(dateFormat(jsonObject.getString(movie.TAG_RELEASE_DATA)));
-            movie.setGenre_ids(jsonObject.getString(movie.TAG_GENRE_IDS));
-            movie.setId(jsonObject.getString(movie.TAG_ID));
-            movie.setOriginal_title(jsonObject.getString(movie.TAG_ORIGINAL_TITLE));
-            movie.setOriginal_language(jsonObject.getString(movie.TAG_ORIGINAL_LANGUAGE));
-            movie.setTitle(jsonObject.getString(movie.TAG_TITLE));
-            movie.setBackdrop_path(jsonObject.getString(movie.TAG_BACKDROP_PATH));
-            movie.setPopularity(jsonObject.getString(movie.TAG_POPULARITY));
-            movie.setVote_count(jsonObject.getString(movie.TAG_VOTE_COUNT));
-            movie.setVideo(jsonObject.getBoolean(movie.TAG_VIDEO));
-            movie.setVote_average(jsonObject.getString(movie.TAG_VOTE_AVERAGE));
+            movie.setPoster_path(jsonObject.getString(Movie.TAG_POSTER_PATH));
+            movie.setAdult(jsonObject.getBoolean(Movie.TAG_ADULT));
+            movie.setOverview(jsonObject.getString(Movie.TAG_OVERVIEW));
+            movie.setRelease_date(dateFormat(jsonObject.getString(Movie.TAG_RELEASE_DATA)));
+            movie.setGenre_ids(jsonObject.getString(Movie.TAG_GENRE_IDS));
+            movie.setId(jsonObject.getString(Movie.TAG_ID));
+            movie.setOriginal_title(jsonObject.getString(Movie.TAG_ORIGINAL_TITLE));
+            movie.setOriginal_language(jsonObject.getString(Movie.TAG_ORIGINAL_LANGUAGE));
+            movie.setTitle(jsonObject.getString(Movie.TAG_TITLE));
+            movie.setBackdrop_path(jsonObject.getString(Movie.TAG_BACKDROP_PATH));
+            movie.setPopularity(jsonObject.getString(Movie.TAG_POPULARITY));
+            movie.setVote_count(jsonObject.getString(Movie.TAG_VOTE_COUNT));
+            movie.setVideo(jsonObject.getBoolean(Movie.TAG_VIDEO));
+            movie.setVote_average(jsonObject.getString(Movie.TAG_VOTE_AVERAGE));
             movieList.add(movie);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -181,11 +177,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     }
 
     private void intentPutExtras(Intent intent, int position){
-        intent.putExtra(movie.TAG_POSTER_PATH, movieList.get(position).getPoster_path());
-        intent.putExtra(movie.TAG_ORIGINAL_TITLE, movieList.get(position).getOriginal_title());
-        intent.putExtra(movie.TAG_OVERVIEW, movieList.get(position).getOverview());
-        intent.putExtra(movie.TAG_VOTE_AVERAGE, movieList.get(position).getVote_average());
-        intent.putExtra(movie.TAG_RELEASE_DATA, movieList.get(position).getRelease_date());
+        intent.putExtra("movie", movieList.get(position));
     }
 
     @Override
@@ -214,8 +206,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat outputFormat = new SimpleDateFormat("dd MMM yyyy");
         Date date = inputFormat.parse(dateToFormat);
-        String dateFormated = outputFormat.format(date);
-        return dateFormated;
+        return outputFormat.format(date);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -269,6 +260,4 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         InternetDialogFragment internetDialogFragment = new InternetDialogFragment();
         internetDialogFragment.show(getFragmentManager(), "Erro Conexão");
     }
-
-
 }

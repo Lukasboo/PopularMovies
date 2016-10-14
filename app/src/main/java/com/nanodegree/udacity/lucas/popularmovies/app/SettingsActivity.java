@@ -6,6 +6,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
@@ -20,6 +21,9 @@ public class SettingsActivity extends PreferenceActivity
         PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
         dialogPreference = (DialogPreference)getPreferenceScreen().findPreference(getString(R.string.pref_movies_key));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_movies_key)));
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+        int pos = findPreference("sort").getOrder();
+        preferenceScreen.onItemClick(null, null, pos, 0);
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
