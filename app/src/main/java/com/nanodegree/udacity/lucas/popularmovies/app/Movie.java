@@ -38,7 +38,8 @@ public class Movie implements Parcelable {
     public static final String TAG_VOTE_COUNT = "vote_count";
     public static final String TAG_VIDEO = "video";
     public static final String TAG_VOTE_AVERAGE = "vote_average";
-    public static final String TAG_KEY_API = "API KEY AQUI";
+    //public static final String TAG_KEY_API = "API KEY AQUI";
+    public static final String TAG_KEY_API = BuildConfig.MOVIE_DB_API_KEY;
     public static final String TAG_URL_POSTER_PATH = "https://image.tmdb.org/t/p/w500";
     public static final String TAG_URL_API = "api.themoviedb.org";
 
