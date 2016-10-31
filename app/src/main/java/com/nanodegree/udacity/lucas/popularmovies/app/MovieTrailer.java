@@ -23,6 +23,7 @@ public class MovieTrailer {
     public static final String TAG_SITE = "site";
     public static final String TAG_SIZE = "size";
     public static final String TAG_TYPE = "type";
+    public static final String TAG_YOUTUBE_BASE_URL = "http://www.youtube.com/watch?v=";
 
     public String getId() {
         return id;

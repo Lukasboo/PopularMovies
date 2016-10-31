@@ -57,7 +57,7 @@ public class TrailerListAdapter extends BaseAdapter {
                 trailerData.get(position)
                         .getPoster_path().toString())
                 .into(viewHolder.movie_image);*/
-        viewHolder.txttrailer.setText(trailerData.get(position).toString());
+        viewHolder.txttrailer.setText(trailerData.get(position).getName());
         return convertView;
     }
 

@@ -96,7 +96,7 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
         String urlBuild = uri.build().toString();
         return urlBuild;
     }
-
+    //https://api.themoviedb.org/3/movie/278/videos?api_key=9c533054f3463670421676bacdb1966b
     private String uriBuilder(String params, String videos){
         Uri.Builder uri = new Uri.Builder();
         uri.scheme("http")
@@ -105,8 +105,7 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 .appendPath("movie")
                 .appendEncodedPath(params)
                 .appendPath(videos)
-                .appendQueryParameter("api_key", Movie.TAG_KEY_API)
-                .appendQueryParameter("language", "pt-BR");
+                .appendQueryParameter("api_key", Movie.TAG_KEY_API);
         String urlBuild = uri.build().toString();
         return urlBuild;
     }
