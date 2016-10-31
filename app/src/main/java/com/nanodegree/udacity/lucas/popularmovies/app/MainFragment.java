@@ -46,7 +46,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     FetchMoviesTask fetchMoviesTask;
     SharedPreferences prefs;
     GridView lvMovieList;
-    ListAdapter listAdapter;
+    MovieListAdapter listAdapter;
     ArrayList<Movie> moviesArray;
     public ArrayList<Movie> movieList;
 
@@ -213,7 +213,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     private void updateMovies() throws ExecutionException, InterruptedException, JSONException {
         if (isOnline()) {
             moviesArray = new ArrayList();
-            fetchMoviesTask = new FetchMoviesTask();
+            fetchMoviesTask = new FetchMoviesTask(Movie.TAG_URI_TYPE_MAIN);
             prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
             moviesArray = getMoviesDataFromJson(fetchMoviesTask.execute(getPreference()).get());
             setListAdapter();
@@ -221,7 +221,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     }
 
     private void setListAdapter(){
-        listAdapter = new ListAdapter(getContext(), moviesArray, R.layout.movies_entry);
+        listAdapter = new MovieListAdapter(getContext(), moviesArray, R.layout.movies_entry);
         lvMovieList.setAdapter(listAdapter);
     }
 
@@ -260,4 +260,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         InternetDialogFragment internetDialogFragment = new InternetDialogFragment();
         internetDialogFragment.show(getFragmentManager(), "Erro Conexão");
     }
+
+
+
 }

@@ -1,5 +1,9 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
+/**
+ * Created by Mobile on 07/10/2016.
+ */
+
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -17,6 +21,12 @@ import java.net.URL;
 
 class FetchMoviesTask extends AsyncTask<String, Void, String> {
 
+    int typeUri;
+
+    public FetchMoviesTask(int typeUri) {
+        this.typeUri = typeUri;
+    }
+
     @Override
     protected String doInBackground(String... params) {
         String moviesJsonStr = sendRequest(params[0]);
@@ -28,7 +38,15 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
         BufferedReader reader = null;
         String moviesJson = null;
         try {
-            URL url = new URL(uriBuilder(params));
+            URL url = null;
+            if (typeUri==Movie.TAG_URI_TYPE_MAIN) {
+                url = new URL(uriBuilder(params));
+            } else if (typeUri==Movie.TAG_URI_TYPE_DETAIL) {
+                url = new URL(uriBuilder(params, "videos"));
+            } else {
+                Log.d("TaskError", "Erro");
+                return null;
+            }
             urlConnection = setUrlConnection(url);
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
@@ -60,7 +78,12 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
         }
         return moviesJson;
     }
-
+    //scheme  authority          pathpath param  api_key
+    //https://api.themoviedb.org/3/movie/popular?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
+    //scheme  authority          pathpath param  api_key
+    //https://api.themoviedb.org/3/movie/188927?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
+    //scheme  authority          pathpath param  param  api_key
+    //https://api.themoviedb.org/3/movie/188927/videos?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
     private String uriBuilder(String params){
         Uri.Builder uri = new Uri.Builder();
         uri.scheme("http")
@@ -68,6 +91,20 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 .appendPath("3")
                 .appendPath("movie")
                 .appendEncodedPath(params)
+                .appendQueryParameter("api_key", Movie.TAG_KEY_API)
+                .appendQueryParameter("language", "pt-BR");
+        String urlBuild = uri.build().toString();
+        return urlBuild;
+    }
+
+    private String uriBuilder(String params, String videos){
+        Uri.Builder uri = new Uri.Builder();
+        uri.scheme("http")
+                .authority(Movie.TAG_URL_API)
+                .appendPath("3")
+                .appendPath("movie")
+                .appendEncodedPath(params)
+                .appendPath(videos)
                 .appendQueryParameter("api_key", Movie.TAG_KEY_API)
                 .appendQueryParameter("language", "pt-BR");
         String urlBuild = uri.build().toString();

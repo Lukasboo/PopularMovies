@@ -15,13 +15,13 @@ import java.util.ArrayList;
  * Created by Mobile on 07/10/2016.
  */
 
-public class ListAdapter extends BaseAdapter {
+public class MovieListAdapter extends BaseAdapter {
 
     private Context context;
     int resource;
     ArrayList<Movie> movieData;
 
-    public ListAdapter(Context context, ArrayList<Movie> movieData, int resource){
+    public MovieListAdapter(Context context, ArrayList<Movie> movieData, int resource){
         this.context = context;
         this.movieData = movieData;
         this.resource = resource;
@@ -52,7 +52,8 @@ public class ListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        Picasso.with(context).load(Movie.TAG_URL_POSTER_PATH + movieData.get(position)
+        Picasso.with(context).load(Movie.TAG_URL_POSTER_PATH +
+                movieData.get(position)
                 .getPoster_path().toString())
                 .into(viewHolder.movie_image);
         return convertView;
