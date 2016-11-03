@@ -1,8 +1,7 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.DialogPreference;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
@@ -11,19 +10,31 @@ import android.preference.PreferenceScreen;
 public class SettingsActivity extends PreferenceActivity
         implements Preference.OnPreferenceChangeListener {
 
-    DialogPreference dialogPreference;
+    //DialogPreference dialogPreference;
+    String pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        pref = intent.getStringExtra("pref");
+
         addPreferencesFromResource(R.xml.pref_general);
-        PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
-        dialogPreference = (DialogPreference)getPreferenceScreen().findPreference(getString(R.string.pref_movies_key));
+        //PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
+        //dialogPreference = (DialogPreference)getPreferenceScreen().findPreference(getString(R.string.pref_movies_key));
+        //dialogPreference = (DialogPreference)getPreferenceScreen().findPreference(pref);
+
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_movies_key)));
+        //bindPreferenceSummaryToValue(findPreference(pref));
         PreferenceScreen preferenceScreen = getPreferenceScreen();
-        int pos = findPreference("sort").getOrder();
-        preferenceScreen.onItemClick(null, null, pos, 0);
+        //int pos = findPreference("sort").getOrder();
+        //preferenceScreen.onItemClick(null, null, pos, 0);
+        //onPreferenceChange(findPreference(getString(R.string.pref_movies_key)), pref);
+        onPreferenceChange(findPreference("sort"), pref);
+        Intent intent1 = new Intent(this, MainActivity.class);
+        startActivity(intent1);
+        //finish();
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
@@ -32,13 +43,17 @@ public class SettingsActivity extends PreferenceActivity
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+                        //.getString(pref, ""));
+                        //.getString(preference.getKey(), ""));
+
     }
 
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         String stringValue = newValue.toString();
-        if (preference instanceof ListPreference) {
+        preference.setSummary(stringValue);
+        /*if (preference instanceof ListPreference) {
             ListPreference listPreference = (ListPreference) preference;
             int prefIndex = listPreference.findIndexOfValue(stringValue);
             if (prefIndex >= 0) {
@@ -46,7 +61,10 @@ public class SettingsActivity extends PreferenceActivity
             }
         } else {
             preference.setSummary(stringValue);
-        }
+        }*/
         return true;
     }
+
+
+
 }

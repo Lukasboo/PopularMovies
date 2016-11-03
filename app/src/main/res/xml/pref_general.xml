@@ -11,7 +11,7 @@
         android:entryValues="@array/entry_values_movies"
         android:key="@string/pref_movies_key"
         android:summary="@string/pref_movies_default_value"
-        android:title="Filmes em ordem de"
+        android:title="Filmes"
         app:showAsAction="always" />
 
 </PreferenceScreen>

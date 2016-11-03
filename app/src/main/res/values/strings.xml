@@ -13,6 +13,9 @@
     <string name="vote_average">"Nota: "</string>
     <string name="release_date">Data de Lançamento\n</string>
 
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
     <string-array name="entry_values_movies">
         <item>popular</item>
         <item>top_rated</item>
