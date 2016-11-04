@@ -62,6 +62,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     ActionBarDrawerToggle drawerToggle;
     View rootView;
     private ActionBarDrawerToggle mDrawerToggle;
+    private int menuItemId;
 
     public MainFragment() {}
 
@@ -91,17 +92,20 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             //this.setHasOptionsMenu(true);
             findViews(rootView);
 
-            /*mDrawerToggle = new ActionBarDrawerToggle(getActivity(), R.menu.drawer_view,
+            mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawer,
                     R.string.drawer_open, R.string.drawer_close) {
 
                 /** Called when a drawer has settled in a completely open state. */
-                /*public void onDrawerOpened(View drawerView) {
+                public void onDrawerOpened(View drawerView) {
+                    nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
+
                 }
 
                 /** Called when a drawer has settled in a completely closed state. */
-                /*public void onDrawerClosed(View view) {
+                public void onDrawerClosed(View view) {
+                    //nvDrawer.getMenu().findItem(menuItem.getItemId()).setChecked(true);
                 }
-            };*/
+            };
 
             try {
                 updateMovies();
@@ -324,6 +328,14 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         try {
+                            nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
+                            menuItemId = menuItem.getItemId();
+                            //nvDrawer.setCheckedItem(menuItem.getItemId());
+                            //nvDrawer.getMenu().findItem(menuItem.getItemId()).setChecked(true);
+                            //menuItem.setChecked(true);
+                            //menuItem.setCheckable(true);
+                            //menuItem.setChecked(true);
+                            //mNavItemId = menuItem.getItemId();
                             selectDrawerItem(menuItem);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
@@ -345,11 +357,20 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         switch(menuItem.getItemId()) {
             case R.id.nav_first_fragment:
                 callSettings("popular");
+                menuItemId = menuItem.getItemId();
+                //menuItem = nvDrawer.getMenu().findItem(R.id.nav_first_fragment);
+                //menuItem.setCheckable(true);
+               //menuItem.setChecked(true);
+                //nvDrawer.setCheckedItem(menuItem.getItemId());
                 //updateMovies();
                 //fragmentClass = MainFragment.this;
                 break;
             case R.id.nav_second_fragment:
                 callSettings("top_rated");
+                //menuItem = nvDrawer.getMenu().findItem(R.id.nav_second_fragment);
+                //menuItem.setCheckable(true);
+                //menuItem.setChecked(true);
+                //nvDrawer.setCheckedItem(menuItem.getItemId());
                 //updateMovies();
                 //fragmentClass = DetailFragment.class;
                 break;

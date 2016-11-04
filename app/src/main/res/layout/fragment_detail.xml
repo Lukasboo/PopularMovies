@@ -67,10 +67,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
+
+
+
         <ScrollView
             android:id="@+id/scrollOverview"
+            android:layout_weight="2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
 
             <TextView
                 android:id="@+id/overview"
@@ -82,12 +86,22 @@
 
         </ScrollView>
 
+        <ListView
+            android:id="@+id/list_trailer"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content" />
+
+        <ListView
+            android:id="@+id/list_review"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="wrap_content" />
+
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/list_trailer"
-        android:layout_weight="1"
-        android:layout_height="0dp"
-        android:layout_width="wrap_content" />
+
+
 </LinearLayout>
+
 </LinearLayout>

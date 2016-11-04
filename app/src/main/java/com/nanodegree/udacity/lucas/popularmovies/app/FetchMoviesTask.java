@@ -43,6 +43,8 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 url = new URL(uriBuilder(params));
             } else if (typeUri==Movie.TAG_URI_TYPE_DETAIL) {
                 url = new URL(uriBuilder(params, "videos"));
+            } else if (typeUri==Movie.TAG_URI_TYPE_DETAIL) {
+                url = new URL(uriBuilder(params, "videos"));
             } else {
                 Log.d("TaskError", "Erro");
                 return null;
@@ -97,14 +99,14 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
         return urlBuild;
     }
     //https://api.themoviedb.org/3/movie/278/videos?api_key=9c533054f3463670421676bacdb1966b
-    private String uriBuilder(String params, String videos){
+    private String uriBuilder(String params, String paramstwo){
         Uri.Builder uri = new Uri.Builder();
         uri.scheme("http")
                 .authority(Movie.TAG_URL_API)
                 .appendPath("3")
                 .appendPath("movie")
                 .appendEncodedPath(params)
-                .appendPath(videos)
+                .appendPath(paramstwo)
                 .appendQueryParameter("api_key", Movie.TAG_KEY_API);
         String urlBuild = uri.build().toString();
         return urlBuild;

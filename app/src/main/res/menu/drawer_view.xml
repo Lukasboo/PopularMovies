@@ -3,9 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_first_fragment"
+            android:checkable="true"
             android:title="Populares" />
         <item
             android:id="@+id/nav_second_fragment"
+            android:checkable="true"
             android:title="Mais Votados" />
         <!--<item
             android:id="@+id/nav_third_fragment"
