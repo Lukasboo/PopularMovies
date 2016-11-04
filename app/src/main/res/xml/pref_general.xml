@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListPreference
+    <EditTextPreference
+        android:defaultValue="popular"
+        android:key="@string/pref_movies_key"
+        android:title="Filmes"
+        app:showAsAction="always" />
+
+    <!--<ListPreference
         android:defaultValue="popular"
         android:dialogTitle="Critério dos Filmes"
         android:entries="@array/entry_values_movies"
@@ -12,7 +18,7 @@
         android:key="@string/pref_movies_key"
         android:summary="@string/pref_movies_default_value"
         android:title="Filmes"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
 </PreferenceScreen>
 

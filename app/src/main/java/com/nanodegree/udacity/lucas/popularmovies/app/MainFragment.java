@@ -61,6 +61,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     NavigationView nvDrawer;
     ActionBarDrawerToggle drawerToggle;
     View rootView;
+    private ActionBarDrawerToggle mDrawerToggle;
 
     public MainFragment() {}
 
@@ -76,6 +77,8 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             //setSupportActionBar(toolbar);
             ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
             // Find our drawer view
             mDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
@@ -85,8 +88,21 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             // Setup drawer view
             setupDrawerContent(nvDrawer);
 
-            this.setHasOptionsMenu(true);
+            //this.setHasOptionsMenu(true);
             findViews(rootView);
+
+            /*mDrawerToggle = new ActionBarDrawerToggle(getActivity(), R.menu.drawer_view,
+                    R.string.drawer_open, R.string.drawer_close) {
+
+                /** Called when a drawer has settled in a completely open state. */
+                /*public void onDrawerOpened(View drawerView) {
+                }
+
+                /** Called when a drawer has settled in a completely closed state. */
+                /*public void onDrawerClosed(View view) {
+                }
+            };*/
+
             try {
                 updateMovies();
             } catch (ExecutionException e) {
@@ -253,7 +269,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             moviesArray = new ArrayList();
             fetchMoviesTask = new FetchMoviesTask(Movie.TAG_URI_TYPE_MAIN);
             prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String teste = getPreference().toString();
+            //String teste = getPreference().toString();
             moviesArray = getMoviesDataFromJson(fetchMoviesTask.execute(getPreference()).get());
             setListAdapter();
         }
@@ -366,7 +382,8 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
-        toolbar.setTitle(menuItem.getTitle());
+        //toolbar.setTitle(menuItem.getTitle());
+        toolbar.setTitle(getPreference());
         // Close the navigation drawer
         mDrawer.closeDrawers();
     }
