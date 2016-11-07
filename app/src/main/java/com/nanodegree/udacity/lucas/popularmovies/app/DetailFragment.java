@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ import java.util.concurrent.ExecutionException;
 public class DetailFragment extends Fragment implements Serializable {
 
     Movie movie;
+    MovieReview movieReview;
     ImageView movie_poster_path;
     TextView original_title;
     TextView overview;
@@ -44,7 +46,9 @@ public class DetailFragment extends Fragment implements Serializable {
     String releaseDateStr;
     MovieTrailer movieTrailer;
     ArrayList<MovieTrailer> trailerList;
+    ArrayList<MovieReview> reviewList;
     ListView list_trailer;
+    ListView list_review;
 
     public DetailFragment() {}
 
@@ -67,6 +71,7 @@ public class DetailFragment extends Fragment implements Serializable {
                 .into(movie_poster_path);
 
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(2);
+        FetchMoviesTask fetchReviewMoviesTask = new FetchMoviesTask(3);
         //fetchMoviesTask.execute(movie.getId()); //it work
 
         try {
@@ -80,6 +85,7 @@ public class DetailFragment extends Fragment implements Serializable {
         }
 
 
+
         list_trailer = (ListView) rootView.findViewById(R.id.list_trailer);
         TrailerListAdapter trailerListAdapter = new TrailerListAdapter(getContext(), trailerList, R.layout.trailers_entry);
         list_trailer.setAdapter(trailerListAdapter);
@@ -89,7 +95,6 @@ public class DetailFragment extends Fragment implements Serializable {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 //intent.setData(movieTrailer.getKey().toString());
                 intent.setPackage("com.google.android.youtube");
-                String teste = MovieTrailer.TAG_YOUTUBE_BASE_URL + trailerList.get(position).getKey();
                 intent.setData(Uri.parse(MovieTrailer.TAG_YOUTUBE_BASE_URL + trailerList.get(position).getKey()));
                 try {
                     //if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
@@ -98,9 +103,26 @@ public class DetailFragment extends Fragment implements Serializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
+
+
+        try {
+            reviewList = getMovieReviewDataFromJson(fetchReviewMoviesTask.execute(movie.getId()).get());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        list_review = (ListView) rootView.findViewById(R.id.list_review);
+        //for (int i=0; i<reviewList.size();i++){
+        ArrayAdapter reviewArrayAdapter = new ArrayAdapter(getActivity(), R.layout.review_entry, R.id.txtauthor, reviewList);
+        list_review.setAdapter(reviewArrayAdapter);
+        /*ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sArray);
+        setListAdapter(adp);*/
         return rootView;
     }
 
@@ -127,8 +149,12 @@ public class DetailFragment extends Fragment implements Serializable {
         releaseDateStr = getString(R.string.release_date) + movie.getRelease_date();
     }
 
+    /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private ArrayList<MovieTrailer> getMoviesDataFromJson(String moviesJsonStr)
+            throws JSONException {*/
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private ArrayList<MovieTrailer>  getMoviesDataFromJson(String moviesJsonStr)
+    private ArrayList<MovieTrailer> getMoviesDataFromJson(String moviesJsonStr)
             throws JSONException {
 
         if (moviesJsonStr != null) {
@@ -167,4 +193,43 @@ public class DetailFragment extends Fragment implements Serializable {
             e.printStackTrace();
         }
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private ArrayList<MovieReview> getMovieReviewDataFromJson(String moviesJsonStr)
+            throws JSONException {
+
+        if (moviesJsonStr != null) {
+            try {
+                JSONObject jsonObject = new JSONObject(moviesJsonStr);
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
+                reviewList = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject moviesJson= jsonArray.getJSONObject(i);
+                    setMovieReviewData(moviesJson);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            Log.d("GETMOVIESJSON", "Empty Data");
+        }
+        return reviewList;
+    }
+
+    private void setMovieReviewData(JSONObject jsonObject) throws ParseException {
+        try {
+            movieReview = new MovieReview();
+            movieReview.setId(jsonObject.getString(MovieTrailer.TAG_ID));
+            movieReview.setAuthor(jsonObject.getString(MovieTrailer.TAG_ISO_639_1));
+            movieReview.setContent(jsonObject.getString(MovieTrailer.TAG_ISO_3166_1));
+            movieReview.setUrl(jsonObject.getString(MovieTrailer.TAG_KEY));
+            reviewList.add(movieReview);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

@@ -43,8 +43,8 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 url = new URL(uriBuilder(params));
             } else if (typeUri==Movie.TAG_URI_TYPE_DETAIL) {
                 url = new URL(uriBuilder(params, "videos"));
-            } else if (typeUri==Movie.TAG_URI_TYPE_DETAIL) {
-                url = new URL(uriBuilder(params, "videos"));
+            } else if (typeUri==Movie.TAG_URI_TYPE_REVIEW) {
+                url = new URL(uriBuilder(params, "reviews"));
             } else {
                 Log.d("TaskError", "Erro");
                 return null;

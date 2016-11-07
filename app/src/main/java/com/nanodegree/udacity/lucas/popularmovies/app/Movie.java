@@ -44,6 +44,7 @@ public class Movie implements Parcelable {
     public static final String TAG_URL_API = "api.themoviedb.org";
     public static final int TAG_URI_TYPE_MAIN = 1;
     public static final int TAG_URI_TYPE_DETAIL = 2;
+    public static final int TAG_URI_TYPE_REVIEW = 3;
     public static final String TAG_YOUTUBE_BASE_URL = "www.youtube.com";
     public static final String TAG_KEY = "key";
 
