@@ -12,12 +12,20 @@
     tools:ignore="contentDescription"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MovieDetail" >
 
+    <!-- The ActionBar displayed at the top -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/include" />
+
     <!-- An invisible view aligned to the center of the parent. Allows other
     views to be arranged on either side -->
     <View
         android:id="@+id/centerShim"
         android:layout_height="match_parent"
         android:layout_width="@dimen/zero_dp"
+        android:layout_below="@+id/toolbar"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"/>
 
@@ -29,10 +37,12 @@
         android:layout_toStartOf="@+id/centerShim"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/centerShim" />
+        android:layout_toLeftOf="@+id/centerShim"
+        android:layout_below="@+id/include" />
 
     <ScrollView
         android:id="@+id/scrollOverview"
+        android:layout_below="@+id/toolbar"
         android:layout_toRightOf="@+id/centerShim"
         android:layout_toEndOf="@+id/centerShim"
         android:scrollbars="vertical"

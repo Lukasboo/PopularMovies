@@ -11,4 +11,12 @@
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     android:background="?attr/colorPrimaryDark">
 
+    <RatingBar
+        android:id="@+id/ratingbar"
+        android:numStars="1"
+        android:stepSize="1"
+        android:layout_marginRight="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </android.support.v7.widget.Toolbar>

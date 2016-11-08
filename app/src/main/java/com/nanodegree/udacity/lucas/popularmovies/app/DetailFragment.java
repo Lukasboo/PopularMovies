@@ -6,6 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -49,6 +52,8 @@ public class DetailFragment extends Fragment implements Serializable {
     ArrayList<MovieReview> reviewList;
     ListView list_trailer;
     ListView list_review;
+    RatingBar ratingbar;
+    Toolbar toolbar;
 
     public DetailFragment() {}
 
@@ -69,6 +74,26 @@ public class DetailFragment extends Fragment implements Serializable {
         settingTexts();
         Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
                 .into(movie_poster_path);
+
+        // Set a Toolbar to replace the ActionBar.
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+
+        ratingbar = (RatingBar) rootView.findViewById(R.id.ratingbar);
+        ratingbar.setVisibility(View.VISIBLE);
+        ratingbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ratingbar.getStepSize()==1) {
+                    ratingbar.setStepSize(0);
+                } else {
+                    ratingbar.setStepSize(1);
+                }
+            }
+        });
 
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(2);
         FetchMoviesTask fetchReviewMoviesTask = new FetchMoviesTask(3);
@@ -132,6 +157,7 @@ public class DetailFragment extends Fragment implements Serializable {
         overview = (TextView)rootView.findViewById(R.id.overview);
         vote_average = (TextView)rootView.findViewById(R.id.vote_average);
         release_data = (TextView)rootView.findViewById(R.id.release_date);
+        ratingbar = (RatingBar) rootView.findViewById(R.id.ratingbar);
     }
 
     private void settingTexts (){

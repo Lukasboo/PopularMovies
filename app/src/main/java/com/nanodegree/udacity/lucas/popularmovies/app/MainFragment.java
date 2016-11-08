@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.RatingBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +64,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     View rootView;
     private ActionBarDrawerToggle mDrawerToggle;
     private int menuItemId;
+    RatingBar ratingbar;
 
     public MainFragment() {}
 
@@ -87,6 +89,10 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
             // Find our drawer view
             nvDrawer = (NavigationView) rootView.findViewById(R.id.nvView);
             // Setup drawer view
+
+            ratingbar = (RatingBar) rootView.findViewById(R.id.ratingbar);
+            ratingbar.setVisibility(View.INVISIBLE);
+
             setupDrawerContent(nvDrawer);
 
             //this.setHasOptionsMenu(true);

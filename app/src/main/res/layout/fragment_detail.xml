@@ -14,6 +14,12 @@
     tools:ignore="contentDescription"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MovieDetail" >
 
+    <!-- The ActionBar displayed at the top -->
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_weight="1"
