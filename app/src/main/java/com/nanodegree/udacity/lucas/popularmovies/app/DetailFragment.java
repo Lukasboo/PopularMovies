@@ -14,9 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutionException;
 public class DetailFragment extends Fragment implements Serializable {
 
     Movie movie;
+    MovieDataHelper movieDataHelper;
     MovieReview movieReview;
     ImageView movie_poster_path;
     TextView original_title;
@@ -52,7 +53,7 @@ public class DetailFragment extends Fragment implements Serializable {
     ArrayList<MovieReview> reviewList;
     ListView list_trailer;
     ListView list_review;
-    RatingBar ratingbar;
+    ImageButton ibtfavorite;
     Toolbar toolbar;
 
     public DetailFragment() {}
@@ -68,6 +69,9 @@ public class DetailFragment extends Fragment implements Serializable {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         findViews(rootView);
+
+        movieDataHelper = new MovieDataHelper(getActivity());
+
         Intent intent = getActivity().getIntent();
         movie = intent.getExtras().getParcelable("movie");
         //movieId = movie.getId();
@@ -82,16 +86,12 @@ public class DetailFragment extends Fragment implements Serializable {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
 
-        ratingbar = (RatingBar) rootView.findViewById(R.id.ratingbar);
-        ratingbar.setVisibility(View.VISIBLE);
-        ratingbar.setOnClickListener(new View.OnClickListener() {
+        //ibtfavorite = (ImageButton) rootView.findViewById(R.id.ibtfavorite);
+        ibtfavorite.setVisibility(View.VISIBLE);
+        ibtfavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ratingbar.getStepSize()==1) {
-                    ratingbar.setStepSize(0);
-                } else {
-                    ratingbar.setStepSize(1);
-                }
+                movieDataHelper.insertMovie(movie);
             }
         });
 
@@ -157,7 +157,7 @@ public class DetailFragment extends Fragment implements Serializable {
         overview = (TextView)rootView.findViewById(R.id.overview);
         vote_average = (TextView)rootView.findViewById(R.id.vote_average);
         release_data = (TextView)rootView.findViewById(R.id.release_date);
-        ratingbar = (RatingBar) rootView.findViewById(R.id.ratingbar);
+        ibtfavorite = (ImageButton) rootView.findViewById(R.id.ibtfavorite);
     }
 
     private void settingTexts (){
