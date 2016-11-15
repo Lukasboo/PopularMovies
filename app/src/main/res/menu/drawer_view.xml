@@ -9,8 +9,9 @@
             android:id="@+id/nav_second_fragment"
             android:checkable="true"
             android:title="Mais Votados" />
-        <!--<item
+        <item
             android:id="@+id/nav_third_fragment"
-            android:title="Third" />-->
+            android:checkable="true"
+            android:title="Favoritos" />
     </group>
 </menu>

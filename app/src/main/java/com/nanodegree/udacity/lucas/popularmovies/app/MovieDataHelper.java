@@ -2,8 +2,12 @@ package com.nanodegree.udacity.lucas.popularmovies.app;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Created by Mobile on 04/11/2016.
@@ -11,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MovieDataHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     static final String DATABASE_NAME = "movie.db";
 
     Movie movie;
@@ -21,7 +25,7 @@ public class MovieDataHelper extends SQLiteOpenHelper {
     private static final String TABLE_FAVORITE_MOVIES = "favoritemovies";
 
     private static final String TABLE_CREATE_FAVORITE_MOVIES =
-            "create table product (id integer primary key not null, " +
+            "create table favoritemovies (id integer primary key not null, " +
                     " movie_id integer not null, original_title text not null, overview text not null, " +
                     "poster_path text not null, adult integer not null, release_date text not null, " +
                     " genre_ids text not null, original_language text not null, " +
@@ -72,6 +76,40 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         values.put(movie.TAG_VOTE_AVERAGE, movie.getVote_average());
     }
 
-
+    public ArrayList<Movie> getFavoriteMovies(){
+        ArrayList<Movie> list = new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        db.beginTransaction();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_FAVORITE_MOVIES;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    Movie movie = new Movie();
+                    movie.setPoster_path(cursor.getString(cursor.getColumnIndex(movie.TAG_POSTER_PATH)));
+                    movie.setOverview(cursor.getString(cursor.getColumnIndex(movie.TAG_OVERVIEW)));
+                    movie.setRelease_date(cursor.getString(cursor.getColumnIndex(movie.TAG_RELEASE_DATA)));
+                    movie.setGenre_ids(cursor.getString(cursor.getColumnIndex(movie.TAG_GENRE_IDS)));
+                    movie.setId(cursor.getString(cursor.getColumnIndex(movie.getId())));
+                    movie.setOriginal_title(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_TITLE)));
+                    movie.setOriginal_language(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_LANGUAGE)));
+                    movie.setTitle(cursor.getString(cursor.getColumnIndex(movie.TAG_TITLE)));
+                    movie.setBackdrop_path(cursor.getString(cursor.getColumnIndex(movie.TAG_BACKDROP_PATH)));
+                    movie.setPopularity(cursor.getString(cursor.getColumnIndex(movie.TAG_POPULARITY)));
+                    movie.setVote_count(cursor.getString(cursor.getColumnIndex(movie.TAG_VOTE_COUNT)));
+                    movie.setVote_average(cursor.getString(cursor.getColumnIndex(movie.TAG_VOTE_AVERAGE)));
+                    list.add(movie);
+                }
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("DBDB", "ERROOO");
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return list;
+    }
 
 }

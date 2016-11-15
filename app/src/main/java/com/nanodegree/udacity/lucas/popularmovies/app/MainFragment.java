@@ -67,6 +67,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     private int menuItemId;
     ImageButton ibtfavorite;
     TextView txtmark;
+    MovieDataHelper movieDataHelper;
 
     public MainFragment() {}
 
@@ -102,13 +103,13 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
 
             //this.setHasOptionsMenu(true);
             findViews(rootView);
-
+            movieDataHelper = new MovieDataHelper(getActivity());
             mDrawerToggle = new ActionBarDrawerToggle(getActivity(), mDrawer,
                     R.string.drawer_open, R.string.drawer_close) {
 
                 /** Called when a drawer has settled in a completely open state. */
                 public void onDrawerOpened(View drawerView) {
-                    nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
+                    //nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
 
                 }
 
@@ -339,7 +340,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         try {
-                            nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
+                            //nvDrawer.getMenu().findItem(menuItemId).setChecked(true);
                             menuItemId = menuItem.getItemId();
                             //nvDrawer.setCheckedItem(menuItem.getItemId());
                             //nvDrawer.getMenu().findItem(menuItem.getItemId()).setChecked(true);
@@ -385,7 +386,10 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
                 //updateMovies();
                 //fragmentClass = DetailFragment.class;
                 break;
-            //case R.id.nav_third_fragment:
+            case R.id.nav_third_fragment:
+                //Toast.makeText(getActivity(), "teste", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MovieFavoriteActivity.class);
+                startActivity(intent);
                 //fragmentClass = ThirdFragment.class;
                 //Intent intent = new Intent(this, )
                 //break;
@@ -412,7 +416,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);*/
 
         // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
+        //menuItem.setChecked(true);
         // Set action bar title
         //toolbar.setTitle(menuItem.getTitle());
         toolbar.setTitle(getPreference());

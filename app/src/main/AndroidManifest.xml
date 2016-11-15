@@ -20,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".MovieDetail" />
-        <activity android:name=".SettingsActivity" android:theme="@style/PreferencesTheme" />
+        <activity
+            android:name=".SettingsActivity"
+            android:theme="@style/PreferencesTheme" />
+        <activity android:name=".MovieFavoriteActivity"></activity>
     </application>
 
 </manifest>

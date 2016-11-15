@@ -109,8 +109,6 @@ public class DetailFragment extends Fragment implements Serializable {
             e.printStackTrace();
         }
 
-
-
         list_trailer = (ListView) rootView.findViewById(R.id.list_trailer);
         TrailerListAdapter trailerListAdapter = new TrailerListAdapter(getContext(), trailerList, R.layout.trailers_entry);
         list_trailer.setAdapter(trailerListAdapter);
@@ -130,7 +128,6 @@ public class DetailFragment extends Fragment implements Serializable {
                 }
             }
         });
-
 
         try {
             reviewList = getMovieReviewDataFromJson(fetchReviewMoviesTask.execute(movie.getId()).get());
