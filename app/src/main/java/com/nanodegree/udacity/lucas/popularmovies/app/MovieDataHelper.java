@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class MovieDataHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 5;
     static final String DATABASE_NAME = "movie.db";
 
     Movie movie;
@@ -27,7 +27,7 @@ public class MovieDataHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE_FAVORITE_MOVIES =
             "create table favoritemovies (id integer primary key not null, " +
                     " movie_id integer not null, original_title text not null, overview text not null, " +
-                    "poster_path text not null, adult integer not null, release_date text not null, " +
+                    "poster_path text not null, release_date text not null, " +
                     " genre_ids text not null, original_language text not null, " +
                     "title text not null, backdrop_path text not null, " +
                     " popularity text not null, vote_count text not null, vote_average integer not null);";
@@ -58,22 +58,24 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         writableDatabase();
         instancingContentValue();
         moviePutValues(movie, values);
-        sqLiteDatabase.insert(TABLE_FAVORITE_MOVIES, null , values);
+        long id = sqLiteDatabase.insert(TABLE_FAVORITE_MOVIES, null , values);
+        String a = "";
     }
 
     private void moviePutValues(Movie movie, ContentValues values){
-        values.put(movie.TAG_POSTER_PATH, movie.getPoster_path());
-        values.put(movie.TAG_OVERVIEW, movie.getOverview());
-        values.put(movie.TAG_RELEASE_DATA, movie.getRelease_date());
-        values.put(movie.TAG_GENRE_IDS, movie.getGenre_ids());
-        values.put(movie.TAG_ID, movie.getId());
-        values.put(movie.TAG_ORIGINAL_TITLE, movie.getOriginal_title());
-        values.put(movie.TAG_ORIGINAL_LANGUAGE, movie.getOriginal_language());
-        values.put(movie.TAG_TITLE, movie.getTitle());
-        values.put(movie.TAG_BACKDROP_PATH, movie.getBackdrop_path());
-        values.put(movie.TAG_POPULARITY, movie.getPopularity());
-        values.put(movie.TAG_VOTE_COUNT, movie.getVote_count());
-        values.put(movie.TAG_VOTE_AVERAGE, movie.getVote_average());
+        values.put(Movie.TAG_POSTER_PATH, movie.getPoster_path());
+        values.put(Movie.TAG_OVERVIEW, movie.getOverview());
+        values.put(Movie.TAG_RELEASE_DATA, movie.getRelease_date());
+        values.put(Movie.TAG_GENRE_IDS, movie.getGenre_ids());
+        //values.put(Movie.TAG_ID, movie.getId());
+        values.put("movie_id", movie.getId());
+        values.put(Movie.TAG_ORIGINAL_TITLE, movie.getOriginal_title());
+        values.put(Movie.TAG_ORIGINAL_LANGUAGE, movie.getOriginal_language());
+        values.put(Movie.TAG_TITLE, movie.getTitle());
+        values.put(Movie.TAG_BACKDROP_PATH, movie.getBackdrop_path());
+        values.put(Movie.TAG_POPULARITY, movie.getPopularity());
+        values.put(Movie.TAG_VOTE_COUNT, movie.getVote_count());
+        values.put(Movie.TAG_VOTE_AVERAGE, movie.getVote_average());
     }
 
     public ArrayList<Movie> getFavoriteMovies(){
@@ -90,7 +92,8 @@ public class MovieDataHelper extends SQLiteOpenHelper {
                     movie.setOverview(cursor.getString(cursor.getColumnIndex(movie.TAG_OVERVIEW)));
                     movie.setRelease_date(cursor.getString(cursor.getColumnIndex(movie.TAG_RELEASE_DATA)));
                     movie.setGenre_ids(cursor.getString(cursor.getColumnIndex(movie.TAG_GENRE_IDS)));
-                    movie.setId(cursor.getString(cursor.getColumnIndex(movie.getId())));
+                    //movie.setId(cursor.getString(cursor.getColumnIndex(movie.getId())));
+                    movie.setId(cursor.getString(cursor.getColumnIndex("movie_id")));
                     movie.setOriginal_title(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_TITLE)));
                     movie.setOriginal_language(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_LANGUAGE)));
                     movie.setTitle(cursor.getString(cursor.getColumnIndex(movie.TAG_TITLE)));
