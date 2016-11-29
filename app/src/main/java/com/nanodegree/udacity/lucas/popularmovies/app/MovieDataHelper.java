@@ -78,6 +78,11 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         values.put(Movie.TAG_VOTE_AVERAGE, movie.getVote_average());
     }
 
+    public void deleteMovie(int movie_id) {
+        writableDatabase();
+        long teste = sqLiteDatabase.delete(TABLE_FAVORITE_MOVIES, "movie_id" + "=" + movie_id, null);
+    }
+
     public ArrayList<Movie> getFavoriteMovies(){
         ArrayList<Movie> list = new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
@@ -114,5 +119,31 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         }
         return list;
     }
+
+    public ArrayList<Movie> getFavoriteMoviesIds(){
+        ArrayList<Movie> list = new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+        db.beginTransaction();
+        try {
+            String selectQuery = "SELECT movie_id FROM " + TABLE_FAVORITE_MOVIES;
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    Movie movie = new Movie();
+                    movie.setId(cursor.getString(cursor.getColumnIndex("movie_id")));
+                    list.add(movie);
+                }
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("DBDB", "ERROOO");
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+        return list;
+    }
+
 
 }

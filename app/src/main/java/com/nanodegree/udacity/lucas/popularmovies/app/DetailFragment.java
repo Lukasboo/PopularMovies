@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,11 +51,14 @@ public class DetailFragment extends Fragment implements Serializable {
     String releaseDateStr;
     MovieTrailer movieTrailer;
     ArrayList<MovieTrailer> trailerList;
+    ArrayList<Movie> favoriteIdsList;
     ArrayList<MovieReview> reviewList;
+    ArrayList<String> reviewAuthorList;
     ListView list_trailer;
     ListView list_review;
     ImageButton ibtfavorite;
     Toolbar toolbar;
+    int movieId;
 
     public DetailFragment() {}
 
@@ -74,24 +78,32 @@ public class DetailFragment extends Fragment implements Serializable {
 
         Intent intent = getActivity().getIntent();
         movie = intent.getExtras().getParcelable("movie");
-        //movieId = movie.getId();
+        movieId = Integer.parseInt(movie.getId());
         settingTexts();
         Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
                 .into(movie_poster_path);
-
-        // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-
-        //ibtfavorite = (ImageButton) rootView.findViewById(R.id.ibtfavorite);
         ibtfavorite.setVisibility(View.VISIBLE);
+        if (isFavorite()) {
+            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
+        } else {
+            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_off);
+        }
         ibtfavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                movieDataHelper.insertMovie(movie);
+                if (isFavorite()) {
+                    movieDataHelper.deleteMovie(movieId);
+                    ibtfavorite.setImageResource(android.R.drawable.btn_star_big_off);
+                    Toast.makeText(getActivity(), "Filme excluido dos favoritos com sucesso!", Toast.LENGTH_LONG).show();
+                } else {
+                    movieDataHelper.insertMovie(movie);
+                    ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                    Toast.makeText(getActivity(), "Filme inserido nos favoritos com sucesso!", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -116,13 +128,10 @@ public class DetailFragment extends Fragment implements Serializable {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                //intent.setData(movieTrailer.getKey().toString());
                 intent.setPackage("com.google.android.youtube");
                 intent.setData(Uri.parse(MovieTrailer.TAG_YOUTUBE_BASE_URL + trailerList.get(position).getKey()));
                 try {
-                    //if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(intent);
-                    //}
+                    startActivity(intent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -138,13 +147,16 @@ public class DetailFragment extends Fragment implements Serializable {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+        reviewAuthorList = new ArrayList<>();
+        for (int i=0;i<reviewList.size();i++) {
+            reviewAuthorList.add(reviewList.get(i).getAuthor());
+        }
 
         list_review = (ListView) rootView.findViewById(R.id.list_review);
-        //for (int i=0; i<reviewList.size();i++){
-        ArrayAdapter reviewArrayAdapter = new ArrayAdapter(getActivity(), R.layout.review_entry, R.id.txtauthor, reviewList);
+        ArrayAdapter reviewArrayAdapter = new ArrayAdapter(getActivity(), R.layout.review_entry, R.id.txtauthor, reviewAuthorList);
         list_review.setAdapter(reviewArrayAdapter);
-        /*ArrayAdapter adp = new ArrayAdapter(this, android.R.layout.simple_list_item_1, sArray);
-        setListAdapter(adp);*/
+        setItemClickListener();
+
         return rootView;
     }
 
@@ -171,10 +183,6 @@ public class DetailFragment extends Fragment implements Serializable {
         voteAverageStr = getString(R.string.vote_average) + movie.getVote_average();
         releaseDateStr = getString(R.string.release_date) + movie.getRelease_date();
     }
-
-    /*@RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private ArrayList<MovieTrailer> getMoviesDataFromJson(String moviesJsonStr)
-            throws JSONException {*/
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private ArrayList<MovieTrailer> getMoviesDataFromJson(String moviesJsonStr)
@@ -236,7 +244,7 @@ public class DetailFragment extends Fragment implements Serializable {
                 ex.printStackTrace();
             }
         } else {
-            Log.d("GETMOVIESJSON", "Empty Data");
+            //Log.d("GETMOVIESJSON", "Empty Data");
         }
         return reviewList;
     }
@@ -244,15 +252,41 @@ public class DetailFragment extends Fragment implements Serializable {
     private void setMovieReviewData(JSONObject jsonObject) throws ParseException {
         try {
             movieReview = new MovieReview();
-            movieReview.setId(jsonObject.getString(MovieTrailer.TAG_ID));
-            movieReview.setAuthor(jsonObject.getString(MovieTrailer.TAG_ISO_639_1));
-            movieReview.setContent(jsonObject.getString(MovieTrailer.TAG_ISO_3166_1));
-            movieReview.setUrl(jsonObject.getString(MovieTrailer.TAG_KEY));
+            movieReview.setId(jsonObject.getString(MovieReview.TAG_ID));
+            movieReview.setAuthor(jsonObject.getString(MovieReview.TAG_AUTHOR));
+            movieReview.setContent(jsonObject.getString(MovieReview.TAG_CONTENT));
+            movieReview.setUrl(jsonObject.getString(MovieReview.TAG_URL));
             reviewList.add(movieReview);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
+    private boolean isFavorite() {
+        favoriteIdsList = movieDataHelper.getFavoriteMoviesIds();
+        for (int i=0;i<favoriteIdsList.size();i++) {
+            if (movieId==Integer.parseInt(favoriteIdsList.get(i).getId())) {
+                //ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void setItemClickListener(){
+        list_review.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(),  MovieReviewActivity.class);
+                intentPutExtras(intent, position);
+                startActivity(intent);
+                getActivity().getFragmentManager().popBackStack();
+            }
+        });
+    }
+
+    private void intentPutExtras(Intent intent, int position){
+        intent.putExtra("moviereview", reviewList.get(position));
+    }
 
 }

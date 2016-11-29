@@ -14,100 +14,92 @@
     tools:ignore="contentDescription"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MovieDetail" >
 
-    <!-- The ActionBar displayed at the top -->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_weight="1"
+    <ScrollView
+        android:id="@+id/scrollOverview"
+        android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="0dp">
-
-        <TextView
-            android:id="@+id/original_title"
-            android:text="ORIGINAL TITLE"
-            android:textSize="@dimen/big_text"
-            style="@style/simpleTextView" />
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_weight="3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <ImageView
-                android:id="@+id/movie_poster_path"
-                android:src="@drawable/pixar"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/vote_average"
-                    android:text="VOTE AVERAGE"
-                    style="@style/simpleTextView" />
-
-                <TextView
-                    android:id="@+id/release_date"
-                    android:text="RELEASE DATE"
-                    style="@style/simpleTextView" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="2"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-
-
-
-        <ScrollView
-            android:id="@+id/scrollOverview"
-            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
             <TextView
-                android:id="@+id/overview"
-                android:text="OVERVIEW"
-                android:gravity="center"
-                android:textColor="#FFFFFF"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"/>
+                android:id="@+id/original_title"
+                android:text="ORIGINAL TITLE"
+                android:textSize="@dimen/big_text"
+                style="@style/simpleTextView" />
 
-        </ScrollView>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <ImageView
+                    android:id="@+id/movie_poster_path"
+                    android:src="@drawable/pixar"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/vote_average"
+                        android:text="VOTE AVERAGE"
+                        style="@style/simpleTextView" />
+
+                    <TextView
+                        android:id="@+id/release_date"
+                        android:text="RELEASE DATE"
+                        style="@style/simpleTextView" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/overview"
+            android:text="OVERVIEW"
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"/>
+
+        <TextView
+            android:text="Trailer"
+            style="@style/titleTextView" />
 
         <ListView
             android:id="@+id/list_trailer"
-            android:layout_weight="1"
-            android:layout_height="0dp"
+            android:layout_height="100dp"
             android:layout_width="wrap_content" />
+
+        <TextView
+            android:text="Review"
+            style="@style/titleTextView" />
 
         <ListView
             android:id="@+id/list_review"
-            android:layout_weight="1"
-            android:layout_height="0dp"
+            android:layout_height="100dp"
             android:layout_width="wrap_content" />
 
     </LinearLayout>
 
-
-
-</LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

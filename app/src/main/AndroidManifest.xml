@@ -24,6 +24,7 @@
             android:name=".SettingsActivity"
             android:theme="@style/PreferencesTheme" />
         <activity android:name=".MovieFavoriteActivity"></activity>
+        <activity android:name=".MovieReviewActivity"></activity>
     </application>
 
 </manifest>

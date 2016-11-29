@@ -12,20 +12,17 @@
     tools:ignore="contentDescription"
     tools:context="com.nanodegree.udacity.lucas.popularmovies.app.MovieDetail" >
 
-    <!-- The ActionBar displayed at the top -->
     <include
         layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/include" />
 
-    <!-- An invisible view aligned to the center of the parent. Allows other
-    views to be arranged on either side -->
     <View
         android:id="@+id/centerShim"
         android:layout_height="match_parent"
         android:layout_width="@dimen/zero_dp"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/include"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"/>
 
@@ -42,12 +39,12 @@
 
     <ScrollView
         android:id="@+id/scrollOverview"
-        android:layout_below="@+id/toolbar"
+        android:layout_below="@+id/include"
         android:layout_toRightOf="@+id/centerShim"
         android:layout_toEndOf="@+id/centerShim"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
@@ -84,10 +81,17 @@
     <ListView
         android:id="@+id/list_trailer"
         android:layout_below="@+id/scrollOverview"
-        android:layout_weight="1"
         android:layout_alignStart="@+id/centerShim"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_alignLeft="@+id/centerShim" />
+
+    <ListView
+        android:id="@+id/list_review"
+        android:layout_below="@+id/list_trailer"
+        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/movie_poster_path"
+        android:layout_toEndOf="@+id/movie_poster_path" />
 
 </RelativeLayout>

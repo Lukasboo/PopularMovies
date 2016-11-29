@@ -74,6 +74,9 @@ public class MovieFavoriteFragment extends Fragment {
 
         txtmark = (TextView) rootView.findViewById(R.id.txtmark);
         txtmark.setVisibility(View.INVISIBLE);
+
+        setupDrawerContent(nvDrawer);
+
         movieDataHelper = new MovieDataHelper(getActivity());
         try {
             favoriteMoviesList = movieDataHelper.getFavoriteMovies();
@@ -133,8 +136,8 @@ public class MovieFavoriteFragment extends Fragment {
         switch(menuItem.getItemId()) {
             case R.id.nav_first_fragment:
                 callSettings("popular");
-                mainIntent = new Intent(getActivity(), MainActivity.class);
-                startActivity(mainIntent);
+                /*mainIntent = new Intent(getActivity(), MainActivity.class);
+                startActivity(mainIntent);*/
                 //menuItemId = menuItem.getItemId();
                 //menuItem = nvDrawer.getMenu().findItem(R.id.nav_first_fragment);
                 //menuItem.setCheckable(true);
@@ -145,8 +148,8 @@ public class MovieFavoriteFragment extends Fragment {
                 break;
             case R.id.nav_second_fragment:
                 callSettings("top_rated");
-                mainIntent = new Intent(getActivity(), MainActivity.class);
-                startActivity(mainIntent);
+                /*mainIntent = new Intent(getActivity(), MainActivity.class);
+                startActivity(mainIntent);*/
                 //menuItem = nvDrawer.getMenu().findItem(R.id.nav_second_fragment);
                 //menuItem.setCheckable(true);
                 //menuItem.setChecked(true);

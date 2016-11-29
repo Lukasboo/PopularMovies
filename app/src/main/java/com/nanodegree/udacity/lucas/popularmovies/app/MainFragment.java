@@ -419,7 +419,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         //menuItem.setChecked(true);
         // Set action bar title
         //toolbar.setTitle(menuItem.getTitle());
-        toolbar.setTitle(getPreference());
+        //toolbar.setTitle(getPreference());
         // Close the navigation drawer
         mDrawer.closeDrawers();
     }

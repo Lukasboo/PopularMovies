@@ -40,7 +40,7 @@ public class SettingsActivity extends PreferenceActivity
 
         Intent intent1 = new Intent(this, MainActivity.class);
         startActivity(intent1);
-        //finish();
+        finish();
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
