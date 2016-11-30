@@ -36,7 +36,6 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(TABLE_CREATE_FAVORITE_MOVIES);
@@ -67,7 +66,6 @@ public class MovieDataHelper extends SQLiteOpenHelper {
         values.put(Movie.TAG_OVERVIEW, movie.getOverview());
         values.put(Movie.TAG_RELEASE_DATA, movie.getRelease_date());
         values.put(Movie.TAG_GENRE_IDS, movie.getGenre_ids());
-        //values.put(Movie.TAG_ID, movie.getId());
         values.put("movie_id", movie.getId());
         values.put(Movie.TAG_ORIGINAL_TITLE, movie.getOriginal_title());
         values.put(Movie.TAG_ORIGINAL_LANGUAGE, movie.getOriginal_language());
@@ -85,11 +83,11 @@ public class MovieDataHelper extends SQLiteOpenHelper {
 
     public ArrayList<Movie> getFavoriteMovies(){
         ArrayList<Movie> list = new ArrayList<>();
-        SQLiteDatabase db=this.getReadableDatabase();
-        db.beginTransaction();
+        readableDatabase();
+        sqLiteDatabase.beginTransaction();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_FAVORITE_MOVIES;
-            Cursor cursor = db.rawQuery(selectQuery, null);
+            Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     Movie movie = new Movie();
@@ -97,7 +95,6 @@ public class MovieDataHelper extends SQLiteOpenHelper {
                     movie.setOverview(cursor.getString(cursor.getColumnIndex(movie.TAG_OVERVIEW)));
                     movie.setRelease_date(cursor.getString(cursor.getColumnIndex(movie.TAG_RELEASE_DATA)));
                     movie.setGenre_ids(cursor.getString(cursor.getColumnIndex(movie.TAG_GENRE_IDS)));
-                    //movie.setId(cursor.getString(cursor.getColumnIndex(movie.getId())));
                     movie.setId(cursor.getString(cursor.getColumnIndex("movie_id")));
                     movie.setOriginal_title(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_TITLE)));
                     movie.setOriginal_language(cursor.getString(cursor.getColumnIndex(movie.TAG_ORIGINAL_LANGUAGE)));
@@ -109,24 +106,24 @@ public class MovieDataHelper extends SQLiteOpenHelper {
                     list.add(movie);
                 }
             }
-            db.setTransactionSuccessful();
+            sqLiteDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
             Log.d("DBDB", "ERROOO");
         } finally {
-            db.endTransaction();
-            db.close();
+            sqLiteDatabase.endTransaction();
+            sqLiteDatabase.close();
         }
         return list;
     }
 
     public ArrayList<Movie> getFavoriteMoviesIds(){
         ArrayList<Movie> list = new ArrayList<>();
-        SQLiteDatabase db=this.getReadableDatabase();
-        db.beginTransaction();
+        readableDatabase();
+        sqLiteDatabase.beginTransaction();
         try {
             String selectQuery = "SELECT movie_id FROM " + TABLE_FAVORITE_MOVIES;
-            Cursor cursor = db.rawQuery(selectQuery, null);
+            Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
                     Movie movie = new Movie();
@@ -134,13 +131,13 @@ public class MovieDataHelper extends SQLiteOpenHelper {
                     list.add(movie);
                 }
             }
-            db.setTransactionSuccessful();
+            sqLiteDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("DBDB", "ERROOO");
+            //Log.d("DBDB", "ERRO");
         } finally {
-            db.endTransaction();
-            db.close();
+            sqLiteDatabase.endTransaction();
+            sqLiteDatabase.close();
         }
         return list;
     }

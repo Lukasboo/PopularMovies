@@ -8,7 +8,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,8 +83,6 @@ public class DetailFragment extends Fragment implements Serializable {
                 .into(movie_poster_path);
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         ibtfavorite.setVisibility(View.VISIBLE);
         if (isFavorite()) {
             ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
@@ -98,18 +95,17 @@ public class DetailFragment extends Fragment implements Serializable {
                 if (isFavorite()) {
                     movieDataHelper.deleteMovie(movieId);
                     ibtfavorite.setImageResource(android.R.drawable.btn_star_big_off);
-                    Toast.makeText(getActivity(), "Filme excluido dos favoritos com sucesso!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.delete_message, Toast.LENGTH_LONG).show();
                 } else {
                     movieDataHelper.insertMovie(movie);
                     ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
-                    Toast.makeText(getActivity(), "Filme inserido nos favoritos com sucesso!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.insert_message, Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(2);
         FetchMoviesTask fetchReviewMoviesTask = new FetchMoviesTask(3);
-        //fetchMoviesTask.execute(movie.getId()); //it work
 
         try {
             trailerList = getMoviesDataFromJson(fetchMoviesTask.execute(movie.getId()).get());
@@ -128,7 +124,7 @@ public class DetailFragment extends Fragment implements Serializable {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setPackage("com.google.android.youtube");
+                intent.setPackage(getString(R.string.youtube_package_name));
                 intent.setData(Uri.parse(MovieTrailer.TAG_YOUTUBE_BASE_URL + trailerList.get(position).getKey()));
                 try {
                     startActivity(intent);
@@ -203,7 +199,7 @@ public class DetailFragment extends Fragment implements Serializable {
                 ex.printStackTrace();
             }
         } else {
-            Log.d("GETMOVIESJSON", "Empty Data");
+            //Log.d("GETMOVIESJSON", "Empty Data");
         }
         return trailerList;
     }
@@ -232,7 +228,7 @@ public class DetailFragment extends Fragment implements Serializable {
         if (moviesJsonStr != null) {
             try {
                 JSONObject jsonObject = new JSONObject(moviesJsonStr);
-                JSONArray jsonArray = jsonObject.getJSONArray("results");
+                JSONArray jsonArray = jsonObject.getJSONArray(getString(R.string.results_str));
                 reviewList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject moviesJson= jsonArray.getJSONObject(i);
@@ -266,7 +262,6 @@ public class DetailFragment extends Fragment implements Serializable {
         favoriteIdsList = movieDataHelper.getFavoriteMoviesIds();
         for (int i=0;i<favoriteIdsList.size();i++) {
             if (movieId==Integer.parseInt(favoriteIdsList.get(i).getId())) {
-                //ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
                 return true;
             }
         }

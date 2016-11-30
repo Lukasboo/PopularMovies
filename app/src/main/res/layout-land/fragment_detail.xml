@@ -74,24 +74,18 @@
                 style="@style/simpleTextView"
                 />
 
+            <ListView
+                android:id="@+id/list_trailer"
+                android:layout_height="100dp"
+                android:layout_width="match_parent" />
+
+            <ListView
+                android:id="@+id/list_review"
+                android:layout_height="100dp"
+                android:layout_width="wrap_content" />
+
         </LinearLayout>
 
     </ScrollView>
-
-    <ListView
-        android:id="@+id/list_trailer"
-        android:layout_below="@+id/scrollOverview"
-        android:layout_alignStart="@+id/centerShim"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_alignLeft="@+id/centerShim" />
-
-    <ListView
-        android:id="@+id/list_review"
-        android:layout_below="@+id/list_trailer"
-        android:layout_height="100dp"
-        android:layout_width="wrap_content"
-        android:layout_toRightOf="@+id/movie_poster_path"
-        android:layout_toEndOf="@+id/movie_poster_path" />
 
 </RelativeLayout>

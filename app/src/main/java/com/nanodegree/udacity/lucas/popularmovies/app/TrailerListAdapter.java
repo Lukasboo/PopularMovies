@@ -47,16 +47,11 @@ public class TrailerListAdapter extends BaseAdapter {
         if (convertView==null){
             viewHolder = new TrailerListAdapter.ViewHolder();
             convertView = inflater.inflate(R.layout.trailers_entry, null);
-            //viewHolder.movie_image = (ImageView) convertView.findViewById(R.id.imgmovie_entry);
             viewHolder.txttrailer = (TextView) convertView.findViewById(txttrailer);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (TrailerListAdapter.ViewHolder) convertView.getTag();
         }
-        /*Picasso.with(context).load(Movie.TAG_URL_POSTER_PATH +
-                trailerData.get(position)
-                        .getPoster_path().toString())
-                .into(viewHolder.movie_image);*/
         viewHolder.txttrailer.setText(trailerData.get(position).getName());
         return convertView;
     }

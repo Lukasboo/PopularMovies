@@ -6,7 +6,6 @@ package com.nanodegree.udacity.lucas.popularmovies.app;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,10 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
-/**
- * Created by Mobile on 07/10/2016.
- */
 
 class FetchMoviesTask extends AsyncTask<String, Void, String> {
 
@@ -46,7 +41,7 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
             } else if (typeUri==Movie.TAG_URI_TYPE_REVIEW) {
                 url = new URL(uriBuilder(params, "reviews"));
             } else {
-                Log.d("TaskError", "Erro");
+                //Log.d("TaskError", "Erro");
                 return null;
             }
             urlConnection = setUrlConnection(url);
@@ -74,18 +69,13 @@ class FetchMoviesTask extends AsyncTask<String, Void, String> {
                 try {
                     reader.close();
                 } catch (final IOException e) {
-                    Log.e("ForecastFragment", "Error closing stream", e);
+                    //Log.e("ForecastFragment", "Error closing stream", e);
                 }
             }
         }
         return moviesJson;
     }
-    //scheme  authority          pathpath param  api_key
-    //https://api.themoviedb.org/3/movie/popular?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
-    //scheme  authority          pathpath param  api_key
-    //https://api.themoviedb.org/3/movie/188927?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
-    //scheme  authority          pathpath param  param  api_key
-    //https://api.themoviedb.org/3/movie/188927/videos?api_key=9c533054f3463670421676bacdb1966b&language=pt-br
+    
     private String uriBuilder(String params){
         Uri.Builder uri = new Uri.Builder();
         uri.scheme("http")

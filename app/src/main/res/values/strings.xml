@@ -15,6 +15,13 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="delete_message">Filme excluido dos favoritos com sucesso!</string>
+    <string name="insert_message">Filme inserido nos favoritos com sucesso!</string>
+    <string name="youtube_package_name">com.google.android.youtube</string>
+    <string name="results_str">results</string>
+    <string name="internet_message">Sem conexão com a internet!\nVerifique suas configurações...</string>
+    <string name="ok">OK</string>
+    <string name="conection_error">Erro Conexão</string>
 
     <string-array name="entry_values_movies">
         <item>popular</item>
