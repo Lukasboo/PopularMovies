@@ -74,38 +74,46 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (isOnline()) {
-            rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        try {
 
-            toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-            mDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
-            nvDrawer = (NavigationView) rootView.findViewById(R.id.nvView);
-            ibtfavorite = (ImageButton) rootView.findViewById(R.id.ibtfavorite);
-            ibtfavorite.setVisibility(View.INVISIBLE);
-            txtmark = (TextView) rootView.findViewById(R.id.txtmark);
-            txtmark.setVisibility(View.INVISIBLE);
-            setupDrawerContent(nvDrawer);
-            findViews(rootView);
-            movieDataHelper = new MovieDataHelper(getActivity());
+            if (isOnline()) {
+                rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-            try {
-                updateMovies();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+                ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+                mDrawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
+                nvDrawer = (NavigationView) rootView.findViewById(R.id.nvView);
+                ibtfavorite = (ImageButton) rootView.findViewById(R.id.ibtfavorite);
+                ibtfavorite.setVisibility(View.INVISIBLE);
+                txtmark = (TextView) rootView.findViewById(R.id.txtmark);
+                txtmark.setVisibility(View.INVISIBLE);
+                setupDrawerContent(nvDrawer);
+                findViews(rootView);
+                movieDataHelper = new MovieDataHelper(getActivity());
+
+                try {
+                    updateMovies();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                setItemClickListener();
+                //return rootView;
+            } else {
+                //createDialog();
+                //return null;
             }
-            setItemClickListener();
-            return rootView;
-        } else {
-            createDialog();
-            return null;
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        return rootView;
     }
 
     @Override

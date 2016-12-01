@@ -36,6 +36,7 @@ import java.util.concurrent.ExecutionException;
 
 public class DetailFragment extends Fragment implements Serializable {
 
+    static final String DETAIL_URI = "URI";
     Movie movie;
     MovieDataHelper movieDataHelper;
     MovieReview movieReview;
@@ -82,7 +83,7 @@ public class DetailFragment extends Fragment implements Serializable {
         Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
                 .into(movie_poster_path);
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ibtfavorite.setVisibility(View.VISIBLE);
         if (isFavorite()) {
             ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
@@ -144,7 +145,7 @@ public class DetailFragment extends Fragment implements Serializable {
             e.printStackTrace();
         }
         reviewAuthorList = new ArrayList<>();
-        for (int i=0;i<reviewList.size();i++) {
+        for (int i = 0; i < reviewList.size(); i++) {
             reviewAuthorList.add(reviewList.get(i).getAuthor());
         }
 
