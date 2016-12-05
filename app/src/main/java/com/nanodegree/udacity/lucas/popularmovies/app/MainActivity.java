@@ -5,8 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean mTwoPane;
+    public boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    //public boolean tablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
             // (res/layout-sw600dp). If this view is present, then the activity should be
             // in two-pane mode.
             mTwoPane = true;
+            //tablet = true;
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             mTwoPane = false;
+            //tablet = false;
         }
 
     }

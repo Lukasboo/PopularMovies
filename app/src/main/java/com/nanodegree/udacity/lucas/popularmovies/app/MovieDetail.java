@@ -20,7 +20,7 @@ public class MovieDetail extends AppCompatActivity implements Serializable {
                     .add(R.id.weather_detail_container, new DetailFragment())
                     .commit();
         }*/
-
+        
         if (savedInstanceState == null) {
             /*getSupportFragmentManager().beginTransaction()
                     .add(R.id.weather_detail_container, new DetailFragment())
