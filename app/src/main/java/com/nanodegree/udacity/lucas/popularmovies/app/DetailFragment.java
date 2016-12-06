@@ -384,4 +384,62 @@ public class DetailFragment extends Fragment implements Serializable {
         return outputFormat.format(date);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void clickcolor(Movie movieDetail){
+        //movieId = Integer.parseInt(movie.getId());
+        movieId = Integer.parseInt(movieDetail.getId());
+        settingTexts();
+        Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
+                .into(movie_poster_path);
+
+        FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(2);
+        FetchMoviesTask fetchReviewMoviesTask = new FetchMoviesTask(3);
+
+        try {
+            trailerList = getMoviesTrailerDataFromJson(fetchMoviesTask.execute(movie.getId()).get());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            //reviewList = getMovieReviewDataFromJson(fetchReviewMoviesTask.execute(movie.getId()).get());
+            reviewList = getMovieReviewDataFromJson(fetchReviewMoviesTask.execute(String.valueOf(movieId)).get());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        TrailerListAdapter trailerListAdapter = new TrailerListAdapter(getContext(), trailerList, R.layout.trailers_entry);
+        list_trailer.setAdapter(trailerListAdapter);
+        list_trailer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setPackage(getString(R.string.youtube_package_name));
+                intent.setData(Uri.parse(MovieTrailer.TAG_YOUTUBE_BASE_URL + trailerList.get(position).getKey()));
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        reviewAuthorList = new ArrayList<>();
+        for (int i = 0; i < reviewList.size(); i++) {
+            reviewAuthorList.add(reviewList.get(i).getAuthor());
+        }
+
+        ArrayAdapter reviewArrayAdapter = new ArrayAdapter(getActivity(), R.layout.review_entry, R.id.txtauthor, reviewAuthorList);
+        list_review.setAdapter(reviewArrayAdapter);
+    }
+
 }

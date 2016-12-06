@@ -1,13 +1,15 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnClickListener {
 
     public boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
-    //public boolean tablet;
+    DetailFragment detailFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.flContent, new MainFragment())
                     .commit();
         }*/
+        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.weather_detail_container);
+
 
         if (findViewById(R.id.weather_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts
@@ -44,6 +48,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         MainFragment ff = (MainFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onClick(Movie movie) {
+        //rightFragment.clickcolor(cor);
+        detailFragment.clickcolor(movie);
     }
 
     /*@Override

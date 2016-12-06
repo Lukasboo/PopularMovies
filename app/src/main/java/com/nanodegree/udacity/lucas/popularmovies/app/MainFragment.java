@@ -1,5 +1,6 @@
 package com.nanodegree.udacity.lucas.popularmovies.app;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,6 +52,7 @@ import java.util.concurrent.ExecutionException;
 public class MainFragment extends android.support.v4.app.Fragment implements Serializable {
 
     Movie movie;
+    Movie movieDetail;
     FetchMoviesTask fetchMoviesTask;
     SharedPreferences prefs;
     GridView lvMovieList;
@@ -66,6 +68,9 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
     ImageButton ibtfavorite;
     TextView txtmark;
     MovieDataHelper movieDataHelper;
+    String movieId;
+    private boolean mTwoPane;
+    private OnClickListener listener;
 
     public MainFragment() {}
 
@@ -78,7 +83,7 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
 
             if (isOnline()) {
                 rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
+                mTwoPane = ((MainActivity)getActivity()).mTwoPane;
                 toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
                 ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,6 +119,16 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+
+        if(!(activity instanceof OnClickListener)){
+            throw new RuntimeException("A Activity deve implementar a interface MainFragment.OnClickListener");
+        }
+        listener = (OnClickListener) activity;
     }
 
     @Override
@@ -206,10 +221,19 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         lvMovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(),  MovieDetail.class);
-                intentPutExtras(intent, position);
-                startActivity(intent);
-                getActivity().getFragmentManager().popBackStack();
+                mTwoPane = ((MainActivity)getActivity()).mTwoPane;
+                if (mTwoPane) {
+
+                    //movieId = movieList.get(position).getId();
+                    movieDetail = movieList.get(position);
+                    listener.onClick(movieDetail);
+
+                } else {
+                    Intent intent = new Intent(getActivity(), MovieDetail.class);
+                    intentPutExtras(intent, position);
+                    startActivity(intent);
+                    getActivity().getFragmentManager().popBackStack();
+                }
             }
         });
     }
@@ -342,4 +366,9 @@ public class MainFragment extends android.support.v4.app.Fragment implements Ser
         //toolbar.setTitle(getPreference());
         mDrawer.closeDrawers();
     }
+
+    public interface OnClickListener{
+        void onClick(Movie movieDetail);
+    }
+
 }
