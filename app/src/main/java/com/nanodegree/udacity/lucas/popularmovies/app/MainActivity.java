@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnCl
                     .add(R.id.flContent, new MainFragment())
                     .commit();
         }*/
-        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.weather_detail_container);
+
 
 
         if (findViewById(R.id.weather_detail_container) != null) {
@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnCl
     @Override
     public void onClick(Movie movie) {
         //rightFragment.clickcolor(cor);
+        //detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.weather_detail_container);
+        //detailFragment = new DetailFragment();
+        detailFragment = (DetailFragment) getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
         detailFragment.clickcolor(movie);
     }
 

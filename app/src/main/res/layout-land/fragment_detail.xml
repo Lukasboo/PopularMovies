@@ -74,18 +74,42 @@
                 style="@style/simpleTextView"
                 />
 
-            <ListView
+            <!--<ListView
                 android:id="@+id/list_trailer"
-                android:layout_height="100dp"
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="true"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
 
             <ListView
                 android:id="@+id/list_review"
-                android:layout_height="100dp"
-                android:layout_width="wrap_content" />
+                android:scrollbars="vertical"
+                android:nestedScrollingEnabled="true"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />-->
 
         </LinearLayout>
 
     </ScrollView>
+
+    <ListView
+        android:id="@+id/list_trailer"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/scrollOverview"
+        android:nestedScrollingEnabled="true"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/centerShim"
+        android:layout_toEndOf="@+id/centerShim" />
+
+    <ListView
+        android:id="@+id/list_review"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/list_trailer"
+        android:nestedScrollingEnabled="true"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@+id/centerShim"
+        android:layout_toEndOf="@+id/centerShim"/>
 
 </RelativeLayout>

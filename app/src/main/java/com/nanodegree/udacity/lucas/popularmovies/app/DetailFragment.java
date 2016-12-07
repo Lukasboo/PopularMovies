@@ -122,11 +122,7 @@ public class DetailFragment extends Fragment implements Serializable {
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ibtfavorite.setVisibility(View.VISIBLE);
-        if (isFavorite()) {
-            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
-        } else {
-            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_off);
-        }
+
         ibtfavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,7 +228,8 @@ public class DetailFragment extends Fragment implements Serializable {
                 trailerList = new ArrayList<>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject moviesJson= jsonArray.getJSONObject(i);
-                    setMainMovieData(moviesJson);
+                    //setMainMovieData(moviesJson);
+                    setMovieData(moviesJson);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -388,15 +385,26 @@ public class DetailFragment extends Fragment implements Serializable {
     public void clickcolor(Movie movieDetail){
         //movieId = Integer.parseInt(movie.getId());
         movieId = Integer.parseInt(movieDetail.getId());
-        settingTexts();
-        Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movie.getPoster_path())
+        //settingTexts();
+        original_title.setText(movieDetail.getOriginal_title());
+        overview.setText(movieDetail.getOverview());
+        vote_average.setText(movieDetail.getVote_average());
+        release_data.setText(movieDetail.getRelease_date());
+        Picasso.with(getActivity()).load(Movie.TAG_URL_POSTER_PATH + movieDetail.getPoster_path())
                 .into(movie_poster_path);
+
+        if (isFavorite()) {
+            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_on);
+        } else {
+            ibtfavorite.setImageResource(android.R.drawable.btn_star_big_off);
+        }
 
         FetchMoviesTask fetchMoviesTask = new FetchMoviesTask(2);
         FetchMoviesTask fetchReviewMoviesTask = new FetchMoviesTask(3);
 
         try {
-            trailerList = getMoviesTrailerDataFromJson(fetchMoviesTask.execute(movie.getId()).get());
+            //trailerList = getMoviesTrailerDataFromJson(fetchMoviesTask.execute(movieDetail.getId()).get());
+            trailerList = getMoviesTrailerDataFromJson(fetchMoviesTask.execute(movieDetail.getId()).get());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
